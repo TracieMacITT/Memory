@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Memory</string>
+    <string name="play_button">Play</string>
+    <string name="quit_button">Quit</string>
+    <string name="memory_label">Memory</string>
+</resources>
