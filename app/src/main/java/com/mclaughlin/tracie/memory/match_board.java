@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 /**
  * Created by Tracie on 5/7/2016.
@@ -13,7 +16,7 @@ public class match_board extends AppCompatActivity {
     private ImageButton[] matchBoardCards = new ImageButton[16];
     private MatchingGrid.Animal[] MatchGrid = new MatchingGrid.Animal[16];
     private boolean gameOver;
-
+    private Random rnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class match_board extends AppCompatActivity {
         matchBoardCards[14] = (ImageButton) findViewById(R.id.match14);
         matchBoardCards[15] = (ImageButton) findViewById(R.id.match15);
 
+        //This can be deleted as it is only used for testing
         MatchGrid[0] = MatchingGrid.Animal.PIG;
         MatchGrid[1] = MatchingGrid.Animal.CHICKEN;
         MatchGrid[2] = MatchingGrid.Animal.DOG;
@@ -72,10 +76,29 @@ public class match_board extends AppCompatActivity {
     }
 
     private void assignImageArray() {
-        //Assign Image Enums Randomly eventually not have more than two of each type
-        //for(){
-        // MatchGrid[index] = Random Enum
-        // }
+        //Create a temp ArrayList to hold which animals where choosen
+        ArrayList<MatchingGrid.Animal> tempList = new ArrayList<>(16);
+
+        //Loop To assign Random Values to Cards
+        for(int index = 0; index < MatchGrid.length; index++){
+            //Assign a random animal to the game and test list
+            MatchGrid[index] = MatchingGrid.getRandomAnimal();
+            tempList.add(MatchGrid[index]);
+            //assign counter variable
+            int count = 0;
+            //Check how many of these animals are in the list
+            for(int tempIndex = 0; tempIndex < tempList.size(); tempIndex++){
+                //If a match is found count it
+                if(tempList.get(tempIndex).equals(MatchGrid[index])){
+                    count++;
+                }
+            }
+            //If there are more than 2 in the list redo the last image
+            if(count > 2){
+                index--;
+            }
+        }
+
         
 
     }

@@ -1,5 +1,7 @@
 package com.mclaughlin.tracie.memory;
 
+import java.util.Random;
+
 public class MatchingGrid {
 
 
@@ -7,6 +9,10 @@ public class MatchingGrid {
             CAT, PIG, COW, DOG, CHICKEN, HORSE, ROOSTER, SHEEP
         }
 
+        public static Animal getRandomAnimal(){
+                // Turn Animal into an array and ranomly select a value to return
+                return Animal.values()[(int) (Math.random() * Animal.values().length)];
+        }
         public static int AssignImage(Animal animal){
 //                Animal.CAT.equals(R.drawable.cat);
 //                Animal.PIG.equals(R.drawable.pig);
