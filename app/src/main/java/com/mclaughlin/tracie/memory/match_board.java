@@ -15,8 +15,9 @@ import java.util.Random;
 public class match_board extends AppCompatActivity {
     private ImageButton[] matchBoardCards = new ImageButton[16];
     private MatchingGrid.Animal[] MatchGrid = new MatchingGrid.Animal[16];
+    private ImageButton[] flippedCards = new ImageButton[2];
     private boolean gameOver;
-    private Random rnd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,10 @@ public class match_board extends AppCompatActivity {
         matchBoardCards[13] = (ImageButton) findViewById(R.id.match13);
         matchBoardCards[14] = (ImageButton) findViewById(R.id.match14);
         matchBoardCards[15] = (ImageButton) findViewById(R.id.match15);
+
+        //Keep track of flipped Cards
+        flippedCards[0] = null;
+        flippedCards[1] = null;
 
         //This can be deleted as it is only used for testing
         MatchGrid[0] = MatchingGrid.Animal.PIG;
@@ -66,17 +71,17 @@ public class match_board extends AppCompatActivity {
             matchBoardCards[imageIndex].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //setResource
-                    setImageResource(v.getTag().toString());
-                    //only call check match if I have selected two cards and not the same card
-                    //checkMatch(MatchingGrid.Animal[0], MatchingGrid.Animal[2]);
+
+                        //Flip the card need to make sure it actually has not been flipped this turn first
+                        setImageResource(v.getTag().toString());
+
                 }
             });
         }
     }
 
-    private void assignImageArray() {
-        //Create a temp ArrayList to hold which animals where choosen
+        private void assignImageArray() {
+        //Create a temp ArrayList to hold which animals where chosen
         ArrayList<MatchingGrid.Animal> tempList = new ArrayList<>(16);
 
         //Loop To assign Random Values to Cards
@@ -105,8 +110,6 @@ public class match_board extends AppCompatActivity {
 
     private void setImageResource(String tag) {
         int intTag = Integer.parseInt(tag);
-
-        //matchBoardCards[intTag].setImageResource(MatchingGrid.AssignImage(MatchingGrid.Animal.CAT));
         matchBoardCards[intTag].setImageResource(MatchingGrid.AssignImage(MatchGrid[intTag]));
     }
 }
