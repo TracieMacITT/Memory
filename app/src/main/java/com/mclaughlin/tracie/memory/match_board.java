@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 /**
  * Created by Tracie on 5/7/2016.
@@ -12,6 +15,7 @@ import android.widget.ImageButton;
 public class match_board extends AppCompatActivity {
     private ImageButton[] matchBoardCards = new ImageButton[16];
     private MatchingGrid.Animal[] MatchGrid = new MatchingGrid.Animal[16];
+    private ImageButton[] flippedCards = new ImageButton[2];
     private boolean gameOver;
 
 
@@ -38,6 +42,11 @@ public class match_board extends AppCompatActivity {
         matchBoardCards[14] = (ImageButton) findViewById(R.id.match14);
         matchBoardCards[15] = (ImageButton) findViewById(R.id.match15);
 
+        //Keep track of flipped Cards
+        flippedCards[0] = null;
+        flippedCards[1] = null;
+
+        //This can be deleted as it is only used for testing
         MatchGrid[0] = MatchingGrid.Animal.PIG;
         MatchGrid[1] = MatchingGrid.Animal.CHICKEN;
         MatchGrid[2] = MatchingGrid.Animal.DOG;
@@ -62,28 +71,45 @@ public class match_board extends AppCompatActivity {
             matchBoardCards[imageIndex].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //setResource
-                    setImageResource(v.getTag().toString());
-                    //only call check match if I have selected two cards and not the same card
-                    //checkMatch(MatchingGrid.Animal[0], MatchingGrid.Animal[2]);
+
+                        //Flip the card need to make sure it actually has not been flipped this turn first
+                        setImageResource(v.getTag().toString());
+
                 }
             });
         }
     }
 
-    private void assignImageArray() {
-        //Assign Image Enums Randomly eventually not have more than two of each type
-        //for(){
-        // MatchGrid[index] = Random Enum
-        // }
+        private void assignImageArray() {
+        //Create a temp ArrayList to hold which animals where chosen
+        ArrayList<MatchingGrid.Animal> tempList = new ArrayList<>(16);
+
+        //Loop To assign Random Values to Cards
+        for(int index = 0; index < MatchGrid.length; index++){
+            //Assign a random animal to the game and test list
+            MatchGrid[index] = MatchingGrid.getRandomAnimal();
+            tempList.add(MatchGrid[index]);
+            //assign counter variable
+            int count = 0;
+            //Check how many of these animals are in the list
+            for(int tempIndex = 0; tempIndex < tempList.size(); tempIndex++){
+                //If a match is found count it
+                if(tempList.get(tempIndex).equals(MatchGrid[index])){
+                    count++;
+                }
+            }
+            //If there are more than 2 in the list redo the last image
+            if(count > 2){
+                index--;
+            }
+        }
+
         
 
     }
 
     private void setImageResource(String tag) {
         int intTag = Integer.parseInt(tag);
-
-        //matchBoardCards[intTag].setImageResource(MatchingGrid.AssignImage(MatchingGrid.Animal.CAT));
         matchBoardCards[intTag].setImageResource(MatchingGrid.AssignImage(MatchGrid[intTag]));
     }
 }
